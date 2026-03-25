@@ -3,29 +3,28 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                echo 'Fetching code...'
-            }
-        }
+        // ---------------------------------------
+        // Jenkins automatically checks out code
+        // No need for manual git clone
+        // ---------------------------------------
 
         stage('Build Docker Image') {
             steps {
-                echo 'Building Docker Image...'
+                echo 'Building Docker image...'
                 sh 'docker build -t wordpress-ci .'
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Stop Existing Containers') {
             steps {
-                echo 'Stopping old container...'
+                echo 'Stopping old containers...'
                 sh 'docker-compose down || true'
             }
         }
 
-        stage('Deploy WordPress') {
+        stage('Deploy Application') {
             steps {
-                echo 'Starting WordPress...'
+                echo 'Starting WordPress containers...'
                 sh 'docker-compose up -d'
             }
         }
@@ -40,10 +39,10 @@ pipeline {
 
     post {
         success {
-            echo 'WordPress Deployment Successful 🚀'
+            echo 'CI/CD Pipeline executed successfully'
         }
         failure {
-            echo 'Deployment Failed ❌'
+            echo 'Pipeline execution failed'
         }
     }
 }
