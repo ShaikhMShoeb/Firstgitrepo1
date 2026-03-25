@@ -1,4 +1,5 @@
+# Use official WordPress image
 FROM wordpress:latest
 
-# Optional customization
-RUN echo "WordPress CI/CD Setup" > /var/www/html/readme.txt
+# Custom change (for demo/verification)
+RUN echo "CI/CD Deployment Successful" > /var/www/html/readme.txt
