@@ -3,13 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning Git Repository...'
-                git 'https://github.com/ShaikhMShoeb/Firstgitrepo1.git'
-            }
-        }
-
         stage('Build') {
             steps {
                 echo 'Building Project...'
@@ -19,16 +12,25 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Running Tests...'
-                sh 'echo "All tests passed"'
+                echo 'Testing Project...'
+                sh 'echo "Tests Passed"'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying Application...'
+                echo 'Deploying Project...'
                 sh 'echo "Deployment Done"'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'SUCCESS'
+        }
+        failure {
+            echo 'FAILED'
         }
     }
 }
