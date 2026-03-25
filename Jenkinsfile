@@ -3,34 +3,47 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building Project...'
-                sh 'echo "Build Successful"'
+                echo 'Fetching code...'
             }
         }
 
-        stage('Test') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Testing Project...'
-                sh 'echo "Tests Passed"'
+                echo 'Building Docker Image...'
+                sh 'docker build -t wordpress-ci .'
             }
         }
 
-        stage('Deploy') {
+        stage('Stop Old Container') {
             steps {
-                echo 'Deploying Project...'
-                sh 'echo "Deployment Done"'
+                echo 'Stopping old container...'
+                sh 'docker-compose down || true'
+            }
+        }
+
+        stage('Deploy WordPress') {
+            steps {
+                echo 'Starting WordPress...'
+                sh 'docker-compose up -d'
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                echo 'Checking running containers...'
+                sh 'docker ps'
             }
         }
     }
 
     post {
         success {
-            echo 'SUCCESS'
+            echo 'WordPress Deployment Successful 🚀'
         }
         failure {
-            echo 'FAILED'
+            echo 'Deployment Failed ❌'
         }
     }
 }
