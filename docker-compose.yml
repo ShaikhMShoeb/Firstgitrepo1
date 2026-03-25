@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
 
+  # WordPress Application
   wordpress:
     image: wordpress:latest
     ports:
@@ -14,6 +15,7 @@ services:
     depends_on:
       - db
 
+  # MySQL Database
   db:
     image: mysql:5.7
     restart: always
